@@ -2,6 +2,8 @@ package com.tech.info.entities;
 
 import java.util.Date;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -37,6 +39,7 @@ public class ProductDetails {
 	private String productName;
 	@Column(name="product_description")
 	private String productDescription;
+	@CreationTimestamp
 	@Column(name="created_on")
 	private Date productCreationDate;
 	

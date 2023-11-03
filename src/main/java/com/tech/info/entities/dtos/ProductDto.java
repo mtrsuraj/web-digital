@@ -2,6 +2,10 @@ package com.tech.info.entities.dtos;
 
 import java.util.Date;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 
 /*we can also use lombok 
  * @Data ---> Getter & Setter
@@ -16,13 +20,17 @@ public class ProductDto {
 	
 	private long productId;
 	
+	@NotEmpty
+	@Size(min = 4, max = 20, message = "Name not valid")
+	@Pattern(regexp = "^[A-Za-z0-9 ]+$", message = "Name not valid")
 	private String productName;
-	
+	@NotEmpty
+	@Size(min = 6, max = 50, message = "Employee address more than 6 character!!")
 	private String productDescription;
 	
 	private Date productCreationDate;
 	
-	private EmployeeDto employeeDto;
+//	private EmployeeDto employeeDto;
 
 	public ProductDto() {
 		super();
@@ -36,7 +44,7 @@ public class ProductDto {
 		this.productName = productName;
 		this.productDescription = productDescription;
 		this.productCreationDate = productCreationDate;
-		this.employeeDto = employeeDto;
+//		this.employeeDto = employeeDto;
 	}
 
 	public long getProductId() {
@@ -71,13 +79,13 @@ public class ProductDto {
 		this.productCreationDate = productCreationDate;
 	}
 
-	public EmployeeDto getEmployeeDto() {
-		return employeeDto;
-	}
-
-	public void setEmployeeDto(EmployeeDto employeeDto) {
-		this.employeeDto = employeeDto;
-	}
+//	public EmployeeDto getEmployeeDto() {
+//		return employeeDto;
+//	}
+//
+//	public void setEmployeeDto(EmployeeDto employeeDto) {
+//		this.employeeDto = employeeDto;
+//	}
 	
 	
 	

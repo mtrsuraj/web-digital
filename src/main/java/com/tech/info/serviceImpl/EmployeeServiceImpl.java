@@ -1,6 +1,7 @@
 package com.tech.info.serviceImpl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,10 @@ import com.tech.info.services.EmployeeService;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-	
+
 	@Autowired
 	private EmployeeRepo employeeRepo;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -30,33 +31,47 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeDto updateEmployee(long employeeId, EmployeeDto employeeDto) {
-		EmployeeDetails gotEmployeeId = this.employeeRepo.findById(employeeId).orElseThrow(()-> new ResourceNotFoundException("Employee","id", String.valueOf(employeeId)));
+//		System.out.println(String.valueOf(employeeId));
+		EmployeeDetails gotEmployeeId = this.employeeRepo.findById(employeeId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee", "id", String.valueOf(employeeId)));
 		gotEmployeeId.setEmployeeName(employeeDto.getEmployeeName());
 		gotEmployeeId.setEmployeeEmail(employeeDto.getEmployeeEmail());
 		gotEmployeeId.setEmployeeAddress(employeeDto.getEmployeeAddress());
 		gotEmployeeId.setEmployeeContactNumber(employeeDto.getEmployeeContactNumber());
-		gotEmployeeId.setEmployeeJoining(employeeDto.getEmployeeJoining());
 		EmployeeDetails saveEmployeeDetails = this.employeeRepo.save(gotEmployeeId);
 		return this.modelMapper.map(saveEmployeeDetails, EmployeeDto.class);
-		
+
 	}
 
 	@Override
 	public EmployeeDto getEmployeeById(long employeeId) {
-		// TODO Auto-generated method stub
-		return null;
+		EmployeeDetails employeeDetails = this.employeeRepo.findById(employeeId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee", "id", String.valueOf(employeeId)));
+		return this.modelMapper.map(employeeDetails, EmployeeDto.class);
 	}
 
 	@Override
 	public List<EmployeeDto> getListOfEmployee() {
-		// TODO Auto-generated method stub
-		return null;
+		List<EmployeeDetails> allEmployee = this.employeeRepo.findAll();
+		List<EmployeeDto> collectEmployee = allEmployee.stream()
+				.map((employee) -> this.modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+		return collectEmployee;
 	}
 
 	@Override
 	public void deleteEmployee(long employeeId) {
-		// TODO Auto-generated method stub
+		EmployeeDetails employeeDetails = this.employeeRepo.findById(employeeId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee", "id", String.valueOf(employeeId)));
+		this.employeeRepo.deleteById(employeeId);
 
+	}
+
+	@Override
+	public List<EmployeeDto> findByEmployeeNames(String employeeName) {
+		List<EmployeeDetails> findByEmployeeName = this.employeeRepo.findByEmployeeName(employeeName);
+		List<EmployeeDto> collect = findByEmployeeName.stream()
+				.map((employee) -> this.modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+		return collect;
 	}
 
 }

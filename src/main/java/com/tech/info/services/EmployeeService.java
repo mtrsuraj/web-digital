@@ -21,6 +21,9 @@ public interface EmployeeService {
 	//DELETE EMPLOYEE
 	void deleteEmployee(long employeeId);
 	
+	//SEARCH EMPLOYEE BY NAME
+	List<EmployeeDto> findByEmployeeNames(String employeeName);
+	
 	
 
 }

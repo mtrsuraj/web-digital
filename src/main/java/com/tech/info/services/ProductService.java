@@ -7,7 +7,7 @@ import com.tech.info.entities.dtos.ProductDto;
 public interface ProductService {
 	
 	// CREATE PRODUCT
-	ProductDto createPost(ProductDto productDto);
+	ProductDto createProduct(ProductDto productDto);
 	
 	//UPDATE PRODUCT
 	ProductDto updateProduct(long productId, ProductDto productDto);

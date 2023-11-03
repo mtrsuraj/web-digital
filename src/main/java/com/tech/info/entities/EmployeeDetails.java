@@ -1,6 +1,11 @@
 package com.tech.info.entities;
 
+import java.time.LocalDateTime;
 import java.util.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -40,7 +45,9 @@ public class EmployeeDetails {
 	@Column(name = "employee_address")
 	private String employeeAddress;
 	@Column(name = "employee_joined_on")
-	private Date employeeJoining;
+	@CreationTimestamp
+	@JsonFormat(pattern="yyyy-MM-dd HH")
+	private LocalDateTime employeeJoining;
 
 	@OneToMany(mappedBy = "employeeDetails", cascade = CascadeType.ALL)
 	private List<ProductDetails> productDetails = new ArrayList<>();
@@ -50,8 +57,10 @@ public class EmployeeDetails {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+
 	public EmployeeDetails(long employeeId, String employeeName, String employeeEmail, String employeeContactNumber,
-			String employeeAddress, Date employeeJoining, List<ProductDetails> productDetails) {
+			String employeeAddress, LocalDateTime employeeJoining, List<ProductDetails> productDetails) {
 		super();
 		this.employeeId = employeeId;
 		this.employeeName = employeeName;
@@ -61,6 +70,8 @@ public class EmployeeDetails {
 		this.employeeJoining = employeeJoining;
 		this.productDetails = productDetails;
 	}
+
+
 
 	public long getEmployeeId() {
 		return employeeId;
@@ -102,11 +113,15 @@ public class EmployeeDetails {
 		this.employeeAddress = employeeAddress;
 	}
 
-	public Date getEmployeeJoining() {
+
+
+	
+
+	public LocalDateTime getEmployeeJoining() {
 		return employeeJoining;
 	}
 
-	public void setEmployeeJoining(Date employeeJoining) {
+	public void setEmployeeJoining(LocalDateTime employeeJoining) {
 		this.employeeJoining = employeeJoining;
 	}
 
